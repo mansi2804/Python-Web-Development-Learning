@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Flask Forms Demo{% endblock %}
+
+{% block content %}
+    <h1>Flask Form Handling Examples</h1>
+    
+    {% if session.get('logged_in') %}
+        <div style="background-color: #e8f5e9; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <h3>Welcome, {{ session.get('email') }}!</h3>
+            <p>You are logged in. Feel free to explore the form examples.</p>
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+    {% endif %}
+    
+    <p>This demo shows how to handle forms in Flask using Flask-WTF.</p>
+    
+    <h2>Available Examples:</h2>
+    <ul>
+        <li><a href="{{ url_for('login') }}">Login Form</a> - Basic form with validation</li>
+        <li><a href="{{ url_for('register') }}">Registration Form</a> - Form with custom validation</li>
+        <li><a href="{{ url_for('profile') }}">Profile Form</a> - Complex form with file upload</li>
+    </ul>
+    
+    <h2>Key Concepts Demonstrated:</h2>
+    <ul>
+        <li>Form creation with Flask-WTF</li>
+        <li>Form validation with WTForms validators</li>
+        <li>Custom validation methods</li>
+        <li>CSRF protection</li>
+        <li>File uploads</li>
+        <li>Flash messages</li>
+        <li>Session management</li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,186 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {{ post.title }} - Django Blog
+{% endblock %}
+
+{% block content %}
+    <article class="card mb-4">
+        <div class="card-body">
+            <h1 class="card-title">{{ post.title }}</h1>
+            <div class="article-metadata text-muted small mb-4">
+                <a href="{% url 'user-posts' post.author.username %}" class="text-decoration-none">
+                    {{ post.author.username }}
+                </a>
+                <span class="mx-1">|</span>
+                <span>{{ post.date_posted|date:"F d, Y" }}</span>
+                {% if post.date_updated != post.date_posted %}
+                    <span class="mx-1">|</span>
+                    <span>Updated: {{ post.date_updated|date:"F d, Y" }}</span>
+                {% endif %}
+                {% if post.category %}
+                    <span class="mx-1">|</span>
+                    <span>Category: 
+                        <a href="{% url 'category-detail' post.category.slug %}" class="text-decoration-none">
+                            {{ post.category.name }}
+                        </a>
+                    </span>
+                {% endif %}
+            </div>
+            
+            {% if post.featured_image %}
+                <img class="post-detail-image img-fluid mb-3" src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+            {% endif %}
+            
+            <div class="card-text mb-4">
+                {{ post.content|linebreaks }}
+            </div>
+            
+            {% if post.tags.all %}
+                <div class="mb-3">
+                    <strong>Tags:</strong>
+                    {% for tag in post.tags.all %}
+                        <a href="{% url 'tag-detail' tag.slug %}" class="badge bg-secondary text-decoration-none">
+                            {{ tag.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            {% if post.author == user %}
+                <div class="mt-4">
+                    <a href="{% url 'post-update' post.slug %}" class="btn btn-secondary">Edit Post</a>
+                    <a href="{% url 'post-delete' post.slug %}" class="btn btn-danger">Delete Post</a>
+                </div>
+            {% endif %}
+        </div>
+    </article>
+    
+    <!-- Related Posts -->
+    {% if related_posts %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Related Posts</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for related in related_posts %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="{% url 'post-detail' related.slug %}" class="text-decoration-none text-dark">
+                                            {{ related.title|truncatechars:40 }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text small">{{ related.content|truncatewords:15 }}</p>
+                                </div>
+                                <div class="card-footer text-muted small">
+                                    {{ related.date_posted|date:"M d, Y" }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+    <!-- Comments Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Comments ({{ post.comment_count }})</h4>
+        </div>
+        <div class="card-body">
+            {% if user.is_authenticated %}
+                <div class="mb-4">
+                    <form method="POST" id="comment-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="parent_id" id="parent-id" value="">
+                        <div id="reply-context" class="alert alert-info d-none mb-2">
+                            Replying to: <span id="reply-to"></span>
+                            <button type="button" class="btn-close float-end" id="cancel-reply"></button>
+                        </div>
+                        {{ comment_form|crispy }}
+                        <button type="submit" class="btn btn-primary">Post Comment</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Please <a href="{% url 'login' %}">log in</a> to post a comment.
+                </div>
+            {% endif %}
+            
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment" id="comment-{{ comment.id }}">
+                        <strong>{{ comment.author.username }}</strong>
+                        <div class="comment-metadata">
+                            {{ comment.date_posted|date:"F d, Y, g:i a" }}
+                        </div>
+                        <div class="mt-2 mb-2">
+                            {{ comment.content|linebreaks }}
+                        </div>
+                        {% if user.is_authenticated %}
+                            <button class="btn btn-sm btn-outline-secondary reply-btn" 
+                                    data-comment-id="{{ comment.id }}" 
+                                    data-username="{{ comment.author.username }}">
+                                Reply
+                            </button>
+                        {% endif %}
+                        
+                        <!-- Comment Replies -->
+                        {% for reply in comment.replies.all %}
+                            <div class="comment-reply" id="comment-{{ reply.id }}">
+                                <strong>{{ reply.author.username }}</strong>
+                                <div class="comment-metadata">
+                                    {{ reply.date_posted|date:"F d, Y, g:i a" }}
+                                </div>
+                                <div class="mt-2 mb-2">
+                                    {{ reply.content|linebreaks }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Comment reply functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const replyButtons = document.querySelectorAll('.reply-btn');
+        const cancelReply = document.getElementById('cancel-reply');
+        const parentIdField = document.getElementById('parent-id');
+        const replyContext = document.getElementById('reply-context');
+        const replyToSpan = document.getElementById('reply-to');
+        
+        replyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.getAttribute('data-comment-id');
+                const username = this.getAttribute('data-username');
+                
+                parentIdField.value = commentId;
+                replyToSpan.textContent = username;
+                replyContext.classList.remove('d-none');
+                
+                // Scroll to comment form
+                document.getElementById('comment-form').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        if (cancelReply) {
+            cancelReply.addEventListener('click', function() {
+                parentIdField.value = '';
+                replyContext.classList.add('d-none');
+            });
+        }
+    });
+</script>
+{% endblock %}

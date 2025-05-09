@@ -1,0 +1,51 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Login - Django Blog
+{% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Log In</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Log In to Your Account</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group mt-3">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                    <small class="text-muted ms-2">
+                        <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                    </small>
+                </div>
+            </form>
+            <div class="border-top pt-3 mt-4">
+                <small class="text-muted">
+                    Need an account? <a class="ms-2" href="{% url 'register' %}">Sign Up Now</a>
+                </small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Authentication in Django</h4>
+        </div>
+        <div class="card-body">
+            <p>This page demonstrates Django's built-in authentication system. Key components:</p>
+            <ul>
+                <li><strong>User Model</strong>: Django provides a built-in User model with authentication fields</li>
+                <li><strong>Login Forms</strong>: Django's authentication forms handle validation and security</li>
+                <li><strong>Authentication Views</strong>: Built-in views for login, logout, password reset</li>
+                <li><strong>Authentication Decorators/Mixins</strong>: Control access to views based on authentication status</li>
+                <li><strong>Session Management</strong>: Secure user sessions with cookies</li>
+            </ul>
+            <p class="mb-0">The login page uses CSRF protection to prevent cross-site request forgery attacks.</p>
+        </div>
+    </div>
+{% endblock %}

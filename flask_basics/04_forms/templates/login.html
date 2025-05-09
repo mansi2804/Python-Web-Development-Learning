@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Flask Forms Demo{% endblock %}
+
+{% block content %}
+    <h1>Login Form</h1>
+    
+    <p>This example demonstrates a basic login form with validation.</p>
+    
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control") }}
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.remember() }} {{ form.remember.label }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.submit(class="btn") }}
+        </div>
+    </form>
+    
+    <div style="margin-top: 20px;">
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </div>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 30px;">
+        <h3>Implementation Notes:</h3>
+        <ul>
+            <li><code>form.hidden_tag()</code> includes a CSRF token that protects against cross-site request forgery attacks</li>
+            <li>Form validation happens on both client-side (through HTML5 attributes) and server-side (through WTForms validators)</li>
+            <li>Error messages appear when validation fails</li>
+            <li>The <code>validate_on_submit()</code> method checks if the form was submitted and passed validation</li>
+        </ul>
+    </div>
+{% endblock %}

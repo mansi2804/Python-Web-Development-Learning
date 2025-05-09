@@ -1,0 +1,8 @@
+flask==2.3.3
+flask-sqlalchemy==3.0.5
+psycopg2-binary==2.9.7
+gunicorn==21.2.0
+pytest==7.4.0
+requests==2.31.0
+python-dotenv==1.0.0
+werkzeug==2.3.7

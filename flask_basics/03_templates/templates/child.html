@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <h2>Template Inheritance Demo</h2>
+    
+    <p>{{ content }}</p>
+    
+    <div style="background-color: #e0f7fa; padding: 15px; border-radius: 5px; margin-top: 20px;">
+        <h3>How Template Inheritance Works</h3>
+        <p>The <code>{% extends "base.html" %}</code> statement at the top of this template tells Jinja2 
+           that this template "extends" the base template.</p>
+        
+        <p>We can then define blocks that override the blocks defined in the parent template:</p>
+        <ol>
+            <li>The <code>content</code> block replaces the default content in the base template</li>
+            <li>We could also override the <code>footer</code> block if needed</li>
+            <li>Any blocks not overridden will use the parent template's version</li>
+        </ol>
+        
+        <p>This allows for consistent layouts across your application while keeping templates DRY 
+          (Don't Repeat Yourself).</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <p>This is a custom footer for the inheritance example page</p>
+    <p>Notice how it replaces the default footer in the base template</p>
+</footer>
+{% endblock %}

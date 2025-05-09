@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}About - Python Shop{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <h1 class="mb-4">About Python Shop</h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Our Mission</h5>
+                <p class="card-text">Python Shop is a demonstration project showing how to integrate front-end technologies with Flask. It showcases various techniques for building modern web applications using Python.</p>
+            </div>
+        </div>
+        
+        <h3 class="mb-3">Key Learning Concepts</h3>
+        
+        <div class="accordion mb-5" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Flask Templates with Jinja2
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>Flask uses the Jinja2 templating engine to render HTML dynamically. This allows for:</p>
+                        <ul>
+                            <li>Template inheritance with <code>{% raw %}{% extends %}{% endraw %}</code></li>
+                            <li>Variable interpolation with <code>{% raw %}{{ variable }}{% endraw %}</code></li>
+                            <li>Control structures like <code>{% raw %}{% if %}{% endraw %}</code> and <code>{% raw %}{% for %}{% endraw %}</code></li>
+                            <li>Custom filters and functions to format data</li>
+                        </ul>
+                        <p>This project demonstrates all these features through a practical e-commerce example.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Serving Static Files
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>Flask serves static files (CSS, JavaScript, images) from the <code>static</code> directory. Key points:</p>
+                        <ul>
+                            <li>Use <code>{% raw %}{{ url_for('static', filename='path/to/file') }}{% endraw %}</code> to generate URLs</li>
+                            <li>Files are organized by type: CSS, JavaScript, images</li>
+                            <li>Static files are cached by browsers for performance</li>
+                            <li>In production, consider using a CDN for better performance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Form Handling
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>This project demonstrates how to handle HTML forms in Flask:</p>
+                        <ul>
+                            <li>Creating forms with proper method attributes (GET/POST)</li>
+                            <li>Processing form data with <code>request.form</code></li>
+                            <li>Form validation and error handling</li>
+                            <li>Redirecting after form submission to prevent duplicate submissions</li>
+                            <li>Using Flash messages to provide user feedback</li>
+                        </ul>
+                        <p>Check out the Contact and Add/Edit Product forms for examples.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Responsive Design
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>The application uses Bootstrap 5 for responsive design:</p>
+                        <ul>
+                            <li>Mobile-first approach ensures the site works on all devices</li>
+                            <li>Grid system adapts content based on screen size</li>
+                            <li>Components like navigation, cards, and forms are responsive</li>
+                            <li>Custom CSS enhances the Bootstrap defaults</li>
+                        </ul>
+                        <p>Try resizing your browser window to see the responsive design in action!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h3 class="mb-3">Technology Stack</h3>
+        
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Backend</h5>
+                        <ul class="list-unstyled">
+                            <li>🐍 Python 3.x</li>
+                            <li>🌶️ Flask Web Framework</li>
+                            <li>🧩 Jinja2 Templating Engine</li>
+                            <li>📦 JSON for Data Storage</li>
+                            <li>🔄 Flask Context Processors & Filters</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Frontend</h5>
+                        <ul class="list-unstyled">
+                            <li>🌐 HTML5 & CSS3</li>
+                            <li>🎨 Bootstrap 5 Framework</li>
+                            <li>📱 Responsive Design</li>
+                            <li>🧠 JavaScript with Bootstrap Components</li>
+                            <li>🖌️ Custom CSS Styling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+    Django Blog - Home
+{% endblock %}
+
+{% block content %}
+    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+        <div class="col-md-12 px-0">
+            <h1 class="display-4">Welcome to Django Blog</h1>
+            <p class="lead my-3">This blog application demonstrates core Django features including models, views, templates, forms, admin, authentication, and more.</p>
+            {% if not user.is_authenticated %}
+                <p class="lead mb-0">
+                    <a href="{% url 'register' %}" class="text-white fw-bold">Register now</a> or 
+                    <a href="{% url 'login' %}" class="text-white fw-bold">log in</a> to start posting!
+                </p>
+            {% else %}
+                <p class="lead mb-0">
+                    <a href="{% url 'post-create' %}" class="text-white fw-bold">Create a new post</a> to share your thoughts!
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2 class="mb-4">Recent Posts</h2>
+    
+    {% if posts %}
+        {% for post in posts %}
+            <article class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        {% if post.featured_image %}
+                            <div class="col-md-4">
+                                <img src="{{ post.featured_image.url }}" class="img-fluid rounded" alt="{{ post.title }}">
+                            </div>
+                            <div class="col-md-8">
+                        {% else %}
+                            <div class="col-md-12">
+                        {% endif %}
+                                <h2 class="card-title">
+                                    <a href="{% url 'post-detail' post.slug %}" class="text-decoration-none text-dark">
+                                        {{ post.title }}
+                                    </a>
+                                </h2>
+                                <div class="mb-2 text-muted small">
+                                    Posted by 
+                                    <a href="{% url 'user-posts' post.author.username %}" class="text-decoration-none">
+                                        {{ post.author.username }}
+                                    </a>
+                                    on {{ post.date_posted|date:"F d, Y" }}
+                                    {% if post.category %}
+                                        in 
+                                        <a href="{% url 'category-detail' post.category.slug %}" class="text-decoration-none">
+                                            {{ post.category.name }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <p class="card-text">{{ post.summary }}</p>
+                                <div class="mb-2">
+                                    {% for tag in post.tags.all %}
+                                        <a href="{% url 'tag-detail' tag.slug %}" class="badge bg-secondary text-decoration-none">
+                                            {{ tag.name }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'post-detail' post.slug %}" class="btn btn-primary btn-sm">Read More</a>
+                                {% if post.author == user %}
+                                    <a href="{% url 'post-update' post.slug %}" class="btn btn-secondary btn-sm">Edit</a>
+                                    <a href="{% url 'post-delete' post.slug %}" class="btn btn-danger btn-sm">Delete</a>
+                                {% endif %}
+                            </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted small">
+                    {{ post.comment_count }} comment{{ post.comment_count|pluralize }}
+                </div>
+            </article>
+        {% endfor %}
+        
+        <div class="d-flex justify-content-center mb-4">
+            <a href="{% url 'post-list' %}" class="btn btn-outline-primary">View All Posts</a>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No posts available yet. Be the first to <a href="{% url 'post-create' %}">create a post</a>!
+        </div>
+    {% endif %}
+    
+    <!-- Django features showcase -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Django Features Demonstrated</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Models & ORM</h5>
+                    <ul>
+                        <li>Model relationships (one-to-many, many-to-many)</li>
+                        <li>Custom model methods and properties</li>
+                        <li>Database queries and filtering</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Views</h5>
+                    <ul>
+                        <li>Function-based views</li>
+                        <li>Class-based views with mixins</li>
+                        <li>Authentication and permissions</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Templates</h5>
+                    <ul>
+                        <li>Template inheritance</li>
+                        <li>Template tags and filters</li>
+                        <li>Template context processors</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Forms & Authentication</h5>
+                    <ul>
+                        <li>ModelForms and validation</li>
+                        <li>User authentication and registration</li>
+                        <li>Permissions and access control</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

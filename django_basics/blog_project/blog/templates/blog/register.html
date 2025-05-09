@@ -1,0 +1,47 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Register - Django Blog
+{% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Register</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Join Today</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group mt-3">
+                    <button class="btn btn-primary" type="submit">Sign Up</button>
+                </div>
+            </form>
+            <div class="border-top pt-3 mt-4">
+                <small class="text-muted">
+                    Already have an account? <a class="ms-2" href="{% url 'login' %}">Sign In</a>
+                </small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Forms in Django</h4>
+        </div>
+        <div class="card-body">
+            <p>This registration page demonstrates several Django form features:</p>
+            <ul>
+                <li><strong>UserCreationForm</strong>: A built-in form for creating users with proper validation</li>
+                <li><strong>Form Extension</strong>: We extended the form to include additional fields like email</li>
+                <li><strong>CSRF Protection</strong>: The {% verbatim %}{% csrf_token %}{% endverbatim %} template tag provides security against cross-site request forgery</li>
+                <li><strong>Form Rendering</strong>: The crispy_forms package enhances the default form rendering</li>
+                <li><strong>Field Validation</strong>: Django automatically validates fields like passwords, ensuring they meet security requirements</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,132 @@
+/* 
+  Styles for WebSocket Chat Application
+  Python WebSocket Integration Example
+*/
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* Chat Messages */
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 80%;
+    position: relative;
+}
+
+.message-user {
+    background-color: #e9f5ff;
+    margin-left: auto;
+    border-top-right-radius: 0;
+}
+
+.message-other {
+    background-color: #f0f0f0;
+    margin-right: auto;
+    border-top-left-radius: 0;
+}
+
+.message-system {
+    background-color: #f8f9fa;
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+    max-width: 100%;
+    border: 1px dashed #dee2e6;
+}
+
+.message-header {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-sender {
+    font-weight: bold;
+}
+
+.message-time {
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+.message-content {
+    word-break: break-word;
+}
+
+/* Active Users List */
+#users-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.user-item {
+    padding: 8px 12px;
+}
+
+/* Connection Status */
+#connection-status {
+    padding: 5px 10px;
+}
+
+.connected {
+    background-color: #28a745;
+}
+
+.disconnected {
+    background-color: #dc3545;
+}
+
+.connecting {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    font-style: italic;
+    color: #6c757d;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+/* Custom Card Styles */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+/* Chat Container */
+#messages-container {
+    background-color: white;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Form Elements */
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #86b7fe;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #messages-container {
+        height: 300px !important;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+}

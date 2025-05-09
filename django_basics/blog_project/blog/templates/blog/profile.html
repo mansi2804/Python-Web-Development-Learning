@@ -1,0 +1,114 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Profile - Django Blog
+{% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>User Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img class="profile-img img-fluid rounded-circle" src="{{ user.profile.image.url }}" alt="{{ user.username }}'s profile picture">
+                    <h3 class="mt-2">{{ user.username }}</h3>
+                    {% if user.profile.location %}
+                        <p class="text-muted"><i class="bi bi-geo-alt-fill"></i> {{ user.profile.location }}</p>
+                    {% endif %}
+                    {% if user.profile.website %}
+                        <p><a href="{{ user.profile.website }}" target="_blank">{{ user.profile.website }}</a></p>
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    {% if user.profile.bio %}
+                        <h4>About</h4>
+                        <p>{{ user.profile.bio }}</p>
+                        <hr>
+                    {% endif %}
+                    
+                    <h4>Account Information</h4>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Date Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+                    <p><strong>Posts:</strong> {{ user.posts.count }}</p>
+                    <p><strong>Comments:</strong> {{ user.comments.count }}</p>
+                </div>
+            </div>
+            
+            <!-- Profile Update Form -->
+            <div class="mt-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Update Profile</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ u_form|crispy }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ p_form|crispy }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group mt-3">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Posts -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Your Recent Posts</h3>
+        </div>
+        <div class="card-body">
+            {% if user_posts %}
+                {% for post in user_posts %}
+                    <div class="mb-3 pb-3 border-bottom">
+                        <h4>
+                            <a href="{% url 'post-detail' post.slug %}" class="text-decoration-none text-dark">
+                                {{ post.title }}
+                            </a>
+                        </h4>
+                        <div class="text-muted small mb-2">
+                            Posted on {{ post.date_posted|date:"F d, Y" }}
+                            {% if post.category %}
+                                in {{ post.category.name }}
+                            {% endif %}
+                        </div>
+                        <p>{{ post.content|truncatewords:30 }}</p>
+                        <div>
+                            <a href="{% url 'post-detail' post.slug %}" class="btn btn-sm btn-outline-primary">View</a>
+                            <a href="{% url 'post-update' post.slug %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a href="{% url 'post-delete' post.slug %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <a href="{% url 'user-posts' user.username %}" class="btn btn-primary">View All Your Posts</a>
+            {% else %}
+                <p>You haven't created any posts yet.</p>
+                <a href="{% url 'post-create' %}" class="btn btn-primary">Create Your First Post</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Django Profile Management</h4>
+        </div>
+        <div class="card-body">
+            <p>This profile page demonstrates:</p>
+            <ul>
+                <li><strong>Model Relationships</strong>: One-to-one relationship between User and Profile models</li>
+                <li><strong>Form Handling</strong>: Multiple forms in a single view (user form and profile form)</li>
+                <li><strong>File Uploads</strong>: Image upload with proper handling</li>
+                <li><strong>Signals</strong>: Automatic profile creation when a user registers</li>
+                <li><strong>Custom Model Methods</strong>: Image resizing in the Profile model's save method</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

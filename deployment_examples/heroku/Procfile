@@ -1,0 +1,2 @@
+web: gunicorn app:app
+release: python manage_db.py

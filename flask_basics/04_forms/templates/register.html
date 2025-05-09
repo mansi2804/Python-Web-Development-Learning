@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Flask Forms Demo{% endblock %}
+
+{% block content %}
+    <h1>Registration Form</h1>
+    
+    <p>This example demonstrates a registration form with custom validation.</p>
+    
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control") }}
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control") }}
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.confirm_password.label(class="form-label") }}
+            {{ form.confirm_password(class="form-control") }}
+            {% if form.confirm_password.errors %}
+                {% for error in form.confirm_password.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.submit(class="btn") }}
+        </div>
+    </form>
+    
+    <div style="margin-top: 20px;">
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    </div>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 30px;">
+        <h3>Implementation Notes:</h3>
+        <ul>
+            <li>The <code>EqualTo</code> validator ensures the password confirmation matches the password</li>
+            <li>Custom validation methods (like <code>validate_username</code>) allow for complex validation rules</li>
+            <li>Validation errors are displayed next to each field</li>
+            <li>Upon successful registration, the user is redirected to the login page with a flash message</li>
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - Python Shop{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <h1 class="mb-4">Contact Us</h1>
+        
+        <div class="card mb-5">
+            <div class="card-body">
+                <form action="{{ url_for('contact') }}" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Our Location</h5>
+                        <address>
+                            <strong>Python Shop Headquarters</strong><br>
+                            123 Web Development Ave<br>
+                            Flask District, PY 12345<br>
+                            <abbr title="Phone">P:</abbr> (123) 456-7890
+                        </address>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Business Hours</h5>
+                        <ul class="list-unstyled">
+                            <li>Monday - Friday: 9:00 AM to 5:00 PM</li>
+                            <li>Saturday: 10:00 AM to 2:00 PM</li>
+                            <li>Sunday: Closed</li>
+                        </ul>
+                        <p class="card-text mt-3">Email: info@pythonshop.example</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Form Handling Explanation -->
+        <div class="card mt-4">
+            <div class="card-header">
+                Form Handling in Flask
+            </div>
+            <div class="card-body">
+                <p class="card-text">This contact form demonstrates Flask's form handling capabilities:</p>
+                <ul>
+                    <li>The form uses the POST method for secure data transmission</li>
+                    <li>Flask processes the form data through the <code>request.form</code> dictionary</li>
+                    <li>Form validation is performed on both client-side (HTML5) and server-side (Python)</li>
+                    <li>Flash messages provide feedback after form submission</li>
+                    <li>The server uses a redirect after form processing to prevent duplicate form submissions</li>
+                </ul>
+                <p class="card-text"><small class="text-muted">Note: In a real application, you would also implement CSRF protection and more robust validation.</small></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

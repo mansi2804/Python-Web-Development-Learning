@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Flask Forms Demo{% endblock %}
+
+{% block content %}
+    <h1>Profile Form</h1>
+    
+    <p>This example demonstrates a more complex form with file upload.</p>
+    
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+            {% if form.name.errors %}
+                {% for error in form.name.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.bio.label(class="form-label") }}
+            {{ form.bio(class="form-control", rows=4) }}
+            {% if form.bio.errors %}
+                {% for error in form.bio.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+            <small style="color: #6c757d;">Maximum 200 characters</small>
+        </div>
+        
+        <div class="form-group">
+            {{ form.age.label(class="form-label") }}
+            {{ form.age(class="form-control") }}
+            {% if form.age.errors %}
+                {% for error in form.age.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.occupation.label(class="form-label") }}
+            {{ form.occupation(class="form-control") }}
+            {% if form.occupation.errors %}
+                {% for error in form.occupation.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.country.label(class="form-label") }}
+            {{ form.country(class="form-control") }}
+            {% if form.country.errors %}
+                {% for error in form.country.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.profile_pic.label(class="form-label") }}
+            {{ form.profile_pic(class="form-control") }}
+            {% if form.profile_pic.errors %}
+                {% for error in form.profile_pic.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+            <small style="color: #6c757d;">Allowed formats: JPG, PNG</small>
+        </div>
+        
+        <div class="form-group">
+            {{ form.submit(class="btn") }}
+        </div>
+    </form>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 30px;">
+        <h3>Implementation Notes:</h3>
+        <ul>
+            <li>The <code>enctype="multipart/form-data"</code> attribute is required for file uploads</li>
+            <li>Different form field types (text, textarea, select, file) can be seen in this example</li>
+            <li>The <code>NumberRange</code> validator ensures the age is within a specific range</li>
+            <li>The <code>FileAllowed</code> validator restricts file uploads to specific formats</li>
+            <li>When a file is uploaded, it's saved to the server's filesystem</li>
+        </ul>
+    </div>
+{% endblock %}

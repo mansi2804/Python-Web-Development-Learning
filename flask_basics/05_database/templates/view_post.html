@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Flask Database Demo{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <div>
+            <small>Author: <a href="{{ url_for('view_user', user_id=post.author.id) }}">{{ post.author.username }}</a></small>
+            <small style="margin-left: 10px;">Posted: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+        </div>
+        <div style="margin-top: 5px;">
+            {% for tag in post.tags %}
+                <span class="badge">{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="card">
+        <div style="white-space: pre-line;">{{ post.content }}</div>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn">Edit Post</a>
+        
+        <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display: inline-block; margin-left: 10px;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete Post</button>
+        </form>
+        
+        <a href="{{ url_for('list_posts') }}" style="margin-left: 10px;">Back to Posts</a>
+    </div>
+    
+    <div class="code-block">
+# SQLAlchemy Retrieval with Relationships - Getting a specific post with its related data
+@app.route('/posts/<int:post_id>')
+def view_post(post_id):
+    """View post details."""
+    post = Post.query.get_or_404(post_id)
+    # Related data is automatically loaded through the relationships
+    # author = post.author  # User who created the post
+    # tags = post.tags      # Tags associated with the post
+    return render_template('view_post.html', post=post)</div>
+{% endblock %}

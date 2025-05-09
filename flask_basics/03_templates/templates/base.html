@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Jinja2 variable interpolation using {{ }} syntax -->
+    <title>{{ title|default('Flask App') }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        nav {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #0366d6;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Navigation menu -->
+        <a href="/">Home</a>
+        <a href="/users">Users</a>
+        <a href="/products">Products</a>
+        <a href="/inheritance">Inheritance Example</a>
+    </nav>
+    
+    <!-- Main heading uses the title variable -->
+    <h1>{{ title|default('Flask Templates') }}</h1>
+    
+    <!-- Content block that child templates can override -->
+    {% block content %}
+        <p>Default content - This will be replaced by child templates.</p>
+    {% endblock %}
+    
+    <!-- Footer block that child templates can override -->
+    {% block footer %}
+        <footer>
+            <p>Flask Templates Demo - Created for learning purposes</p>
+        </footer>
+    {% endblock %}
+</body>
+</html>

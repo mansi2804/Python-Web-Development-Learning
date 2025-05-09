@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <h2>User List</h2>
+    
+    <p>This page demonstrates how to loop through a list of objects in a template.</p>
+    
+    <!-- Check if users exist before looping through them -->
+    {% if users %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- For loop in Jinja2 templates -->
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+    
+    <!-- Demonstrating loop variables -->
+    <h3>Loop Information:</h3>
+    <ul>
+        {% for user in users %}
+            <li>
+                {{ user.username }} 
+                {% if loop.first %}(First item){% endif %}
+                {% if loop.last %}(Last item){% endif %}
+                (Index: {{ loop.index }}, Count: {{ loop.index0 }})
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

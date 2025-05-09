@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Python Shop{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded">
+    <h1 class="display-4">Welcome to Python Shop</h1>
+    <p class="lead">A demo store showcasing Flask and front-end integration techniques.</p>
+    <hr class="my-4">
+    <p>Browse our products, learn about our store, or contact us with any questions.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('products') }}" role="button">Shop Now</a>
+</div>
+
+<div class="my-5">
+    <h2 class="text-center mb-4">Featured Products</h2>
+    <div class="row">
+        {% for product in products[:3] %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='img/' + product.image) }}" class="card-img-top" alt="{{ product.name }}" onerror="this.src='{{ url_for('static', filename='img/default.jpg') }}'">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description|truncate_description }}</p>
+                    <p class="card-text"><strong>{{ product.price|currency }}</strong></p>
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4 mb-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h5 class="card-title">Flask Templates</h5>
+                <p class="card-text">Learn how Flask uses Jinja2 templates to render dynamic HTML.</p>
+                <div class="mt-auto">
+                    <a href="https://flask.palletsprojects.com/en/2.0.x/tutorial/templates/" class="btn btn-outline-primary" target="_blank">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h5 class="card-title">Static Files</h5>
+                <p class="card-text">See how Flask serves CSS, JavaScript, and images as static files.</p>
+                <div class="mt-auto">
+                    <a href="https://flask.palletsprojects.com/en/2.0.x/tutorial/static/" class="btn btn-outline-primary" target="_blank">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h5 class="card-title">Forms & Validation</h5>
+                <p class="card-text">Explore how Flask handles form submission and validation.</p>
+                <div class="mt-auto">
+                    <a href="https://flask.palletsprojects.com/en/2.0.x/patterns/wtforms/" class="btn btn-outline-primary" target="_blank">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

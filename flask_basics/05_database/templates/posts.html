@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Posts - Flask Database Demo{% endblock %}
+
+{% block content %}
+    <h1>Blog Posts</h1>
+    
+    <p>This page demonstrates querying and sorting records from the database.</p>
+    
+    <div style="margin-bottom: 20px;">
+        <a href="{{ url_for('create_post') }}" class="btn">Add New Post</a>
+    </div>
+    
+    {% if posts %}
+        {% for post in posts %}
+            <div class="card">
+                <div class="card-header">
+                    <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
+                </div>
+                <p>{{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}</p>
+                <div>
+                    <small>Author: <a href="{{ url_for('view_user', user_id=post.author.id) }}">{{ post.author.username }}</a></small>
+                    <small style="margin-left: 10px;">Posted: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                <div style="margin-top: 5px;">
+                    {% for tag in post.tags %}
+                        <span class="badge">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+                <div style="margin-top: 10px;">
+                    <a href="{{ url_for('view_post', post_id=post.id) }}">Read More</a> |
+                    <a href="{{ url_for('edit_post', post_id=post.id) }}">Edit</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No posts found.</p>
+    {% endif %}
+    
+    <div class="code-block">
+# SQLAlchemy Query with Ordering - Sorting records
+@app.route('/posts')
+def list_posts():
+    """List all posts ordered by creation date (newest first)."""
+    posts = Post.query.order_by(Post.created_at.desc()).all()
+    return render_template('posts.html', posts=posts)</div>
+{% endblock %}

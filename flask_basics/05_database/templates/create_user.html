@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Create User - Flask Database Demo{% endblock %}
+
+{% block content %}
+    <h1>Create New User</h1>
+    
+    <p>This page demonstrates creating a new record in the database.</p>
+    
+    <form method="POST" action="{{ url_for('create_user') }}">
+        <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn">Create User</button>
+            <a href="{{ url_for('list_users') }}" style="margin-left: 10px;">Cancel</a>
+        </div>
+    </form>
+    
+    <div class="code-block">
+# SQLAlchemy Create Example - Adding a new user to the database
+@app.route('/users/create', methods=['GET', 'POST'])
+def create_user():
+    """Create a new user."""
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        
+        # Create new user
+        user = User(username=username, email=email)
+        db.session.add(user)  # Add to session
+        db.session.commit()   # Commit changes to database
+        
+        return redirect(url_for('list_users'))
+        
+    return render_template('create_user.html')</div>
+{% endblock %}

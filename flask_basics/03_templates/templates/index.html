@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <h2>Welcome to Flask Templates Demo</h2>
+    
+    <p>This page demonstrates basic variable passing from Python to templates.</p>
+    
+    <h3>Template Variables:</h3>
+    <ul>
+        <!-- Demonstrates how to display variables passed from the route function -->
+        <li><strong>Current Time:</strong> {{ current_time.strftime('%Y-%m-%d %H:%M:%S') }}</li>
+        <li><strong>Random Number:</strong> {{ random_number }}</li>
+    </ul>
+    
+    <h3>Jinja2 Expressions:</h3>
+    <ul>
+        <!-- Jinja2 allows basic expressions and calculations -->
+        <li>Random Number + 10: {{ random_number + 10 }}</li>
+        <li>Random Number * 2: {{ random_number * 2 }}</li>
+        <li>Is Random Number > 50? {{ 'Yes' if random_number > 50 else 'No' }}</li>
+    </ul>
+    
+    <h3>Filters Example:</h3>
+    <ul>
+        <!-- Jinja2 has built-in filters that transform values -->
+        <li>Title Case: {{ "hello world"|title }}</li>
+        <li>Uppercase: {{ "hello world"|upper }}</li>
+        <li>Length of "Flask": {{ "Flask"|length }}</li>
+    </ul>
+</div>
+{% endblock %}

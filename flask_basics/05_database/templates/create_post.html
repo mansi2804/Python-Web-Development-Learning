@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Create Post - Flask Database Demo{% endblock %}
+
+{% block content %}
+    <h1>Create New Post</h1>
+    
+    <p>This page demonstrates creating a new record with relationships in the database.</p>
+    
+    <form method="POST" action="{{ url_for('create_post') }}">
+        <div class="form-group">
+            <label class="form-label" for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="content">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="6" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="user_id">Author</label>
+            <select class="form-control" id="user_id" name="user_id" required>
+                <option value="">Select Author</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="tags">Tags (comma-separated)</label>
+            <input type="text" class="form-control" id="tags" name="tags" placeholder="e.g. Flask, Python, Tutorial">
+            <small style="color: #6c757d;">Enter tags separated by commas. New tags will be created automatically.</small>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn">Create Post</button>
+            <a href="{{ url_for('list_posts') }}" style="margin-left: 10px;">Cancel</a>
+        </div>
+    </form>
+    
+    <div class="code-block">
+# Many-to-Many Relationship Example - Working with tags
+@app.route('/posts/create', methods=['GET', 'POST'])
+def create_post():
+    """Create a new post with relationships."""
+    if request.method == 'POST':
+        # Create new post with required fields
+        post = Post(
+            title=request.form['title'],
+            content=request.form['content'],
+            user_id=request.form['user_id']
+        )
+        
+        # Handle tags (many-to-many relationship)
+        tag_names = request.form.get('tags', '').split(',')
+        for tag_name in tag_names:
+            tag_name = tag_name.strip()
+            if tag_name:
+                # Get or create tag
+                tag = Tag.query.filter_by(name=tag_name).first()
+                if not tag:
+                    tag = Tag(name=tag_name)
+                    db.session.add(tag)
+                
+                # Add tag to post
+                post.tags.append(tag)
+        
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('list_posts'))
+        
+    users = User.query.all()
+    return render_template('create_post.html', users=users)</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <h2>Product Catalog</h2>
+    
+    <p>This page demonstrates conditionals, loops with dictionaries, and custom filters.</p>
+    
+    {% if products %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <!-- Using our custom currency filter -->
+                    <td>{{ product.price|currency }}</td>
+                    <td>
+                        {% if product.in_stock %}
+                            <span style="color: green;">In Stock</span>
+                        {% else %}
+                            <span style="color: red;">Out of Stock</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Demonstrate more complex template logic -->
+        <h3>Availability Summary:</h3>
+        <p>
+            {% set in_stock_count = products|selectattr('in_stock', 'eq', true)|list|length %}
+            {{ in_stock_count }} out of {{ products|length }} products are in stock.
+        </p>
+        
+        <!-- Calculate and show the average price -->
+        <h3>Price Information:</h3>
+        {% set total_price = namespace(value=0) %}
+        {% for product in products %}
+            {% set total_price.value = total_price.value + product.price %}
+        {% endfor %}
+        <p>Average price: {{ (total_price.value / products|length)|currency }}</p>
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+</div>
+{% endblock %}
