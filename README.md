@@ -192,8 +192,5 @@ Each module contains practical examples with detailed comments explaining key co
 
 ## License
 
-This project is open source and available under the MIT License.
+This project is open source.
 
-## Created
-
-May 2025
