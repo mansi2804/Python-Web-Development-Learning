@@ -8,7 +8,7 @@ AWS offers several services for deploying Python web applications:
 
 1. **AWS Elastic Beanstalk** - Fully managed PaaS that abstracts away infrastructure
 2. **AWS Lambda + API Gateway** - Serverless deployment for API endpoints
-3. **Amazon ECS/EKS** - Container orchestration for Docker containers
+3. **Amazon ECS/EKS** - Container orchestration for Docker containers 
 4. **Amazon EC2** - Virtual servers in the cloud (traditional deployment)
 5. **AWS App Runner** - Fully managed service for containerized web apps and APIs
 
