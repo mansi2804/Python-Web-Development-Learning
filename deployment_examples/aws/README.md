@@ -13,7 +13,7 @@ AWS offers several services for deploying Python web applications:
 5. **AWS App Runner** - Fully managed service for containerized web apps and APIs
 
 ## Prerequisites
- 
+  
 To follow this guide, you need:
 
 1. [AWS account](https://aws.amazon.com/)
