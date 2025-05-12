@@ -1,7 +1,7 @@
 # Python Web Development Learning Project
 
 A comprehensive project for learning web development with Python, covering multiple frameworks, concepts, and deployment strategies. This repository serves as a complete resource for developers wanting to master Python web development from basics to advanced patterns.
-
+ 
 ## Project Structure
 
 ```
